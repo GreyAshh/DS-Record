@@ -1,0 +1,54 @@
+DECLARE size, a[size], top: INTEGER
+SET top = 0
+
+FUNCTION is_empty() RETURNS INTEGER
+    IF top == 0 THEN
+        RETURN 0
+    ELSE    
+        RETURN 1
+    END IF
+END FUNCTION
+
+FUNCTION is_full() RETURNS INTEGER
+    IF top >= size THEN 
+        RETURN 0
+    ELSE
+        RETURN 1
+    END IF
+END FUNCTION
+
+PROCEDURE push(value: INTEGER)
+    IF is_full() == 0 THEN
+        OUTPUT "Stack is full."
+    ELSE
+        SET a[top++] = value
+    END IF
+END PROCEDURE
+
+FUNCTION pop() RETURNS INTEGER
+    IF is_empty() == 0 THEN 
+        OUTPUT "Stack is empty."
+    ELSE
+        RETURN a[--top]
+    END IF
+END FUNCTION
+
+PROCEDURE rev(s: STRING)
+    DECLARE i: INTEGER
+    FOR i FROM 0 TO LENGTH(s) - 1
+        CALL push(s[i])
+    END FOR
+
+    OUTPUT "Reverse of the String:"
+    WHILE is_empty() == 1
+        OUTPUT CHAR(pop())
+    END WHILE
+    OUTPUT ""
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE s[20]: STRING
+    OUTPUT "Enter the String: "
+    INPUT s
+    CALL rev(s)
+END PROCEDURE

@@ -1,0 +1,66 @@
+PROCEDURE read(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    FOR i FROM 0 TO n - 1
+        OUTPUT "Enter element", i + 1, ": "
+        INPUT a[i]
+    END FOR
+END PROCEDURE
+
+PROCEDURE swap(x: INTEGER, y: INTEGER)
+    DECLARE temp: INTEGER
+    SET temp = x
+    SET x = y
+    SET y = temp
+END PROCEDURE
+
+PROCEDURE display(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    OUTPUT "The sorted array is,"
+    FOR i FROM 0 TO n - 1
+        OUTPUT a[i], " "
+    END FOR
+    OUTPUT ""
+END PROCEDURE
+
+FUNCTION partition(a: ARRAY OF INTEGER, start: INTEGER, end: INTEGER) RETURNS INTEGER
+    DECLARE i, j, key: INTEGER
+    SET key = a[start]
+    SET i = start + 1
+    SET j = end
+
+    WHILE i < j
+        WHILE a[i] < key AND i < end
+            SET i = i + 1
+        END WHILE
+
+        WHILE a[j] > key AND j > start
+            SET j = j - 1
+        END WHILE
+
+        IF i < j THEN
+            CALL swap(a[i], a[j])
+        END IF
+    END WHILE
+
+    CALL swap(a[start], a[j])
+    RETURN j
+END FUNCTION
+
+PROCEDURE quick(a: ARRAY OF INTEGER, start: INTEGER, end: INTEGER)
+    IF start < end THEN
+        DECLARE pos: INTEGER
+        SET pos = CALL partition(a, start, end)
+        CALL quick(a, start, pos - 1)
+        CALL quick(a, pos + 1, end)
+    END IF
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE n: INTEGER
+    OUTPUT "Enter the number of elements : "
+    INPUT n
+    DECLARE a[n]: ARRAY OF INTEGER
+    CALL read(a, n)
+    CALL quick(a, 0, n - 1)
+    CALL display(a, n)
+END PROCEDURE

@@ -1,0 +1,50 @@
+PROCEDURE read(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    FOR i FROM 0 TO n - 1
+        OUTPUT "Enter element", i + 1, ": "
+        INPUT a[i]
+    END FOR
+END PROCEDURE
+
+PROCEDURE swap(x: INTEGER, y: INTEGER)
+    DECLARE temp: INTEGER
+    SET temp = x
+    SET x = y
+    SET y = temp
+END PROCEDURE
+
+PROCEDURE sort(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i, j, l, index: INTEGER
+    FOR i FROM 0 TO n - 1
+        SET l = a[0]
+        SET index = 0
+
+        FOR j FROM 1 TO n - i - 1
+            IF l < a[j] THEN
+                SET l = a[j]
+                SET index = j
+            END IF
+        END FOR
+
+        CALL swap(a[index], a[n - i - 1])
+    END FOR
+END PROCEDURE
+
+PROCEDURE display(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    OUTPUT "The sorted array is,"
+    FOR i FROM 0 TO n - 1
+        OUTPUT a[i], " "
+    END FOR
+    OUTPUT ""
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE n: INTEGER
+    OUTPUT "Enter the number of elements: "
+    INPUT n
+    DECLARE a[n]: ARRAY OF INTEGER
+    CALL read(a, n)
+    CALL sort(a, n)
+    CALL display(a, n)
+END PROCEDURE

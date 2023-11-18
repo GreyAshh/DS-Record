@@ -1,0 +1,41 @@
+FUNCTION read(a: ARRAY, n: INTEGER)
+    FOR i FROM 0 TO n - 1
+        OUTPUT "Enter element", i + 1, ": "
+        INPUT a[i]
+    END FOR
+END FUNCTION
+
+FUNCTION swap(x: POINTER TO INTEGER, y: POINTER TO INTEGER)
+    DECLARE temp: INTEGER
+    temp = *x
+    *x = *y
+    *y = temp
+END FUNCTION
+
+FUNCTION sort(a: ARRAY, n: INTEGER)
+    FOR i FROM 0 TO n - 2
+        FOR j FROM 0 TO n - i - 2
+            IF a[j] > a[j + 1]
+                CALL swap(&a[j], &a[j + 1])
+            END IF
+        END FOR
+    END FOR
+END FUNCTION
+
+FUNCTION display(a: ARRAY, n: INTEGER)
+    OUTPUT "The sorted array is,"
+    FOR i FROM 0 TO n - 1
+        OUTPUT a[i], " "
+    END FOR
+    OUTPUT ""
+END FUNCTION
+
+FUNCTION main()
+    DECLARE n: INTEGER
+    OUTPUT "Enter the number of elements: "
+    INPUT n
+    DECLARE a[n]: ARRAY
+    CALL read(a, n)
+    CALL sort(a, n)
+    CALL display(a, n)
+END FUNCTION

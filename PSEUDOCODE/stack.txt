@@ -1,0 +1,89 @@
+DECLARE size: INTEGER
+DECLARE a[size]: ARRAY
+DECLARE top: INTEGER
+
+FUNCTION is_empty() RETURNS INTEGER
+    IF top == 0 THEN
+        RETURN 0
+    ELSE
+        RETURN 1
+    END IF
+END FUNCTION
+
+FUNCTION is_full() RETURNS INTEGER
+    IF top >= size THEN
+        RETURN 0
+    ELSE
+        RETURN 1
+    END IF
+END FUNCTION
+
+PROCEDURE push(value: INTEGER)
+    IF is_full() == 0 THEN
+        OUTPUT "Stack is full."
+    ELSE
+        a[top] = value
+        INCREMENT top
+    END IF
+END PROCEDURE
+
+FUNCTION pop() RETURNS INTEGER
+    IF is_empty() == 0 THEN
+        OUTPUT "Stack is empty."
+    ELSE
+        DECREMENT top
+        RETURN a[top]
+    END IF
+END FUNCTION
+
+PROCEDURE peek()
+    IF is_empty() == 0 THEN
+        OUTPUT "Stack is empty."
+    ELSE
+        OUTPUT "Top Element: ", a[top - 1]
+    END IF
+END PROCEDURE
+
+PROCEDURE display()
+    FOR i FROM top - 1 DOWNTO 0
+        OUTPUT a[i]
+    END FOR
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE ch, value: INTEGER
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Push element"
+    OUTPUT "2. Pop element"
+    OUTPUT "3. Peek element"
+    OUTPUT "4. Display elements"
+    OUTPUT "5. Exit"
+
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be pushed: "
+                INPUT value
+                CALL push(value)
+                BREAK
+            CASE 2:
+                OUTPUT "Value Popped: ", CALL pop()
+                BREAK
+            CASE 3:
+                CALL peek()
+                BREAK
+            CASE 4:
+                OUTPUT "The stack is, "
+                CALL display()
+                BREAK
+            CASE 5:
+                OUTPUT "Exiting the program."
+                BREAK
+            DEFAULT:
+                OUTPUT "Wrong input."
+        END SWITCH
+    UNTIL ch == 5
+END PROCEDURE

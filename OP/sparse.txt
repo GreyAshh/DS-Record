@@ -1,0 +1,17 @@
+/tmp/v6PG2NDUqN.o
+Enter the no of rows: 3
+Enter the no of coloumns: 3
+Enter the element[0][0]: 1
+Enter the element[0][1]: 0
+Enter the element[0][2]: 0
+Enter the element[1][0]: 0
+Enter the element[1][1]: 2
+Enter the element[1][2]: 0
+Enter the element[2][0]: 0
+Enter the element[2][1]: 3
+Enter the element[2][2]: 0
+The sparse matrix in three coloumn representation is ,
+3 3 3 
+0 0 1 
+1 1 2 
+2 1 3 

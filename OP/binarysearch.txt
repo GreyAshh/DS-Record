@@ -1,0 +1,19 @@
+Enter the number of elements : 5
+Enter element in the sorted order.
+Enter element  1: 1
+Enter element  2: 3
+Enter element  3: 4
+Enter element  4: 6
+Enter element  5: 9
+Enter the element to be searched: 6
+The element is present at 4 th position in the array.
+
+Enter the number of elements : 5
+Enter element in the sorted order.
+Enter element  1: 1
+Enter element  2: 3
+Enter element  3: 4
+Enter element  4: 6
+Enter element  5: 9
+Enter the element to be searched: 10
+The element is not present in the array.

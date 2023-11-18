@@ -1,0 +1,39 @@
+PROCEDURE read(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    FOR i FROM 0 TO n - 1
+        OUTPUT "Enter element", i + 1, ": "
+        INPUT a[i]
+    END FOR
+END PROCEDURE
+
+PROCEDURE display(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    OUTPUT "The sorted array is,"
+    FOR i FROM 0 TO n - 1
+        OUTPUT a[i], " "
+    END FOR
+    OUTPUT ""
+END PROCEDURE
+
+PROCEDURE sort(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i, j, key: INTEGER
+    FOR i FROM 1 TO n - 1
+        SET key = a[i]
+        SET j = i - 1
+        WHILE j >= 0 AND a[j] > key
+            SET a[j + 1] = a[j]
+            SET j = j - 1
+        END WHILE
+        SET a[j + 1] = key
+    END FOR
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE n: INTEGER
+    OUTPUT "Enter the number of elements: "
+    INPUT n
+    DECLARE a[n]: ARRAY OF INTEGER
+    CALL read(a, n)
+    CALL sort(a, n)
+    CALL display(a, n)
+END PROCEDURE

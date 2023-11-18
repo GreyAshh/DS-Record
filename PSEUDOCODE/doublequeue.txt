@@ -1,0 +1,137 @@
+DECLARE size, a[size], f, r: INTEGER
+SET f = -1
+SET r = -1
+
+FUNCTION is_empty() RETURNS INTEGER
+    IF f = -1 THEN
+        RETURN 1
+    ELSE
+        RETURN 0
+    END IF
+END FUNCTION
+
+FUNCTION is_full() RETURNS INTEGER
+    IF f = (r + 1) % size THEN
+        RETURN 1
+    ELSE
+        RETURN 0
+    END IF
+END FUNCTION
+
+PROCEDURE insert_r(value: INTEGER)
+    IF is_full() = 1 THEN 
+        OUTPUT "Queue is full."
+    ELSE
+        IF is_empty() = 1 THEN
+            SET f = 0
+            SET r = 0
+        ELSE
+            SET r = (r + 1) % size
+        END IF
+        SET a[r] = value
+    END IF
+END PROCEDURE
+
+PROCEDURE insert_f(value: INTEGER)
+    IF is_full() = 1 THEN 
+        OUTPUT "Queue is full."
+    ELSE
+        IF is_empty() = 1 THEN
+            SET f = 0
+            SET r = 0
+        ELSE
+            SET f = (f + size - 1) % size
+        END IF
+        SET a[f] = value
+    END IF
+END PROCEDURE
+
+FUNCTION delete_f() RETURNS INTEGER
+    DECLARE val: INTEGER
+    IF is_empty() = 1 THEN
+        OUTPUT "Queue is empty."
+    ELSE
+        SET val = a[f]
+        IF f = r THEN
+            SET f = -1
+            SET r = -1
+        ELSE
+            SET f = (f + 1) % size
+        END IF
+    END IF
+    RETURN val
+END FUNCTION
+
+FUNCTION delete_r() RETURNS INTEGER
+    DECLARE val: INTEGER
+    IF is_empty() = 1 THEN
+        OUTPUT "Queue is empty."
+    ELSE
+        SET val = a[r]
+        IF f = r THEN
+            SET f = -1
+            SET r = -1
+        ELSE
+            SET r = (r + size - 1) % size
+        END IF
+    END IF
+    RETURN val
+END FUNCTION
+
+PROCEDURE display()
+    DECLARE i: INTEGER
+    SET i = f
+    IF is_empty() = 1 THEN
+        OUTPUT "Queue is empty."
+    ELSE
+        REPEAT
+            OUTPUT a[i], " "
+            SET i = (i + 1) % size
+        UNTIL i = (r + 1) % size
+        OUTPUT ""
+    END IF
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE ch, value, v: INTEGER
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Insert element in rear"
+    OUTPUT "2. Insert element in front"
+    OUTPUT "3. Delete element from rear"
+    OUTPUT "4. Delete element from front"
+    OUTPUT "5. Display elements"
+    OUTPUT "6. Exit"
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                CALL insert_r(value)
+                BREAK
+            CASE 2:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                CALL insert_f(value)
+                BREAK
+            CASE 3:
+                SET v = CALL delete_r()
+                OUTPUT "Value deleted: ", v
+                BREAK
+            CASE 4:
+                SET v = CALL delete_f()
+                OUTPUT "Value deleted: ", v
+                BREAK
+            CASE 5:
+                OUTPUT "The queue is, "
+                CALL display()
+                BREAK
+            CASE 6:
+                OUTPUT "Exiting the program."
+                BREAK
+            DEFAULT:
+                OUTPUT "Wrong input."
+        END SWITCH
+    UNTIL ch = 6
+END PROCEDURE

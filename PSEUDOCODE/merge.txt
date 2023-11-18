@@ -1,0 +1,72 @@
+PROCEDURE read(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    FOR i FROM 0 TO n - 1
+        OUTPUT "Enter element", i + 1, ": "
+        INPUT a[i]
+    END FOR
+END PROCEDURE
+
+PROCEDURE display(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    OUTPUT "The sorted array is,"
+    FOR i FROM 0 TO n - 1
+        OUTPUT a[i], " "
+    END FOR
+    OUTPUT ""
+END PROCEDURE
+
+PROCEDURE merge_array(a: ARRAY OF INTEGER, first: INTEGER, part: INTEGER, end: INTEGER)
+    DECLARE i, j, k: INTEGER
+    DECLARE temp: ARRAY OF INTEGER OF SIZE end + 1
+    SET i = first
+    SET k = 0
+    SET j = part
+
+    WHILE i < part AND j <= end
+        IF a[i] < a[j]
+            SET temp[k] = a[i]
+            SET k = k + 1
+            SET i = i + 1
+        ELSE
+            SET temp[k] = a[j]
+            SET k = k + 1
+            SET j = j + 1
+        END IF
+    END WHILE
+
+    WHILE i < part
+        SET temp[k] = a[i]
+        SET k = k + 1
+        SET i = i + 1
+    END WHILE
+
+    WHILE j <= end
+        SET temp[k] = a[j]
+        SET k = k + 1
+        SET j = j + 1
+    END WHILE
+
+    FOR i = first, k = 0 TO end
+        SET a[i] = temp[k]
+    END FOR
+END PROCEDURE
+
+PROCEDURE merge(a: ARRAY OF INTEGER, start: INTEGER, end: INTEGER)
+    DECLARE mid: INTEGER
+    IF start < end
+        SET mid = (start + end) / 2
+        CALL merge(a, start, mid)
+        CALL merge(a, mid + 1, end)
+        CALL merge_array(a, start, mid + 1, end)
+    END IF
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE n: INTEGER
+    OUTPUT "Enter the number of elements: "
+    INPUT n
+    DECLARE a[n]: ARRAY OF INTEGER
+    CALL read(a, n)
+    CALL merge(a, 0, n - 1)
+    CALL display(a, n)
+END PROCEDURE

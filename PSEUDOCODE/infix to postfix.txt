@@ -1,0 +1,111 @@
+DECLARE size, a[size], top: INTEGER
+SET top = 0
+
+FUNCTION is_empty() RETURNS INTEGER
+    IF top = 0 THEN
+        RETURN 1
+    ELSE    
+        RETURN 0
+    END IF
+END FUNCTION
+
+FUNCTION is_full() RETURNS INTEGER
+    IF top >= size THEN 
+        RETURN 1
+    ELSE
+        RETURN 0
+    END IF
+END FUNCTION
+
+PROCEDURE push(value: CHARACTER)
+    IF is_full() = 1 THEN
+        OUTPUT "Stack is full."
+    ELSE
+        SET a[top++] = value
+    END IF
+END PROCEDURE
+
+FUNCTION pop() RETURNS CHARACTER
+    IF is_empty() = 1 THEN 
+        OUTPUT "Stack is empty."
+    ELSE
+        RETURN a[--top]
+    END IF
+END FUNCTION
+
+FUNCTION peek() RETURNS CHARACTER
+    IF is_empty() = 1 THEN 
+        OUTPUT "Stack is empty."
+    ELSE
+        RETURN a[top - 1]
+    END IF
+END FUNCTION
+
+FUNCTION instackp(c: CHARACTER) RETURNS INTEGER
+    SWITCH c
+        CASE '+', '-':
+            RETURN 2
+        CASE '*', '/':
+            RETURN 4
+        CASE '^':
+            RETURN 5
+        CASE '(':
+            RETURN 0
+    END SWITCH
+END FUNCTION
+
+FUNCTION inputp(c: CHARACTER) RETURNS INTEGER
+    SWITCH c
+        CASE '+', '-':
+            RETURN 1
+        CASE '*', '/':
+            RETURN 3
+        CASE '^':
+            RETURN 6
+    END SWITCH
+END FUNCTION
+
+PROCEDURE topostfix(exp: ARRAY OF CHARACTER)
+    DECLARE postfix[100]: ARRAY OF CHARACTER
+    DECLARE i, j: INTEGER
+    DECLARE c: CHARACTER
+    SET i = 0
+    SET j = 0
+
+    WHILE exp[i] != '\0'
+        SWITCH exp[i]
+            CASE '(':
+                CALL push(exp[i])
+                BREAK
+            CASE '+', '-', '*', '/', '^':
+                WHILE is_empty() = 0 AND instackp(peek()) > inputp(exp[i])
+                    SET postfix[j++] = CALL pop()
+                END WHILE
+                CALL push(exp[i])
+                BREAK
+            CASE ')':
+                WHILE (c = CALL pop()) != '('
+                    SET postfix[j++] = c
+                END WHILE
+                BREAK
+            DEFAULT:
+                SET postfix[j++] = exp[i]
+        END SWITCH
+        SET i = i + 1
+    END WHILE
+
+    WHILE is_empty() = 0
+        SET postfix[j++] = CALL pop()
+    END WHILE
+
+    SET postfix[j] = '\0'
+    OUTPUT "Postfix is"
+    OUTPUT postfix
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE exp[100]: ARRAY OF CHARACTER
+    OUTPUT "Enter the expression: "
+    INPUT exp
+    CALL topostfix(exp)
+END PROCEDURE

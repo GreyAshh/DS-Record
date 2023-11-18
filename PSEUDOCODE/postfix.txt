@@ -1,0 +1,89 @@
+DECLARE size, a[size], top: INTEGER
+SET top = 0
+
+FUNCTION is_empty() RETURNS INTEGER
+    IF top = 0 THEN
+        RETURN 1
+    ELSE    
+        RETURN 0
+    END IF
+END FUNCTION
+
+FUNCTION is_full() RETURNS INTEGER
+    IF top > size THEN 
+        RETURN 1
+    ELSE
+        RETURN 0
+    END IF
+END FUNCTION
+
+PROCEDURE push(value: INTEGER)
+    IF is_full() = 1 THEN
+        OUTPUT "Stack is full."
+    ELSE
+        SET a[top++] = value
+    END IF
+END PROCEDURE
+
+FUNCTION pop() RETURNS INTEGER
+    IF is_empty() = 1 THEN 
+        OUTPUT "Stack is empty."
+    ELSE
+        RETURN a[--top]
+    END IF
+END FUNCTION
+
+FUNCTION is_operator(c: CHARACTER) RETURNS INTEGER
+    IF c = '+' OR c = '-' OR c = '*' OR c = '/' THEN
+        RETURN 1
+    ELSE
+        RETURN 0
+    END IF
+END FUNCTION
+
+PROCEDURE evaluate(exp: STRING)
+    DECLARE i, num1, num2, res: INTEGER
+    SET i = 0
+
+    WHILE exp[i] IS NOT '\0'
+        IF is_operator(exp[i]) = 0 THEN
+            CALL push(atoi(exp[i]))  // Convert character to integer
+        ELSE
+            SET num1 = CALL pop()
+            SET num2 = CALL pop()
+
+            SWITCH exp[i]
+                CASE '+':
+                    SET res = num2 + num1
+                CASE '-':
+                    SET res = num2 - num1
+                CASE '*':
+                    SET res = num2 * num1
+                CASE '/':
+                    SET res = num2 / num1
+            END SWITCH
+
+            CALL push(res)
+        END IF
+
+        SET i = i + 1
+    END WHILE
+
+    OUTPUT "Result:", CALL pop()
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE exp[100]: STRING
+    DECLARE i: INTEGER
+    SET i = 0
+
+    OUTPUT "Enter the expression: "
+    INPUT exp
+
+    WHILE is_operator(exp[i]) = 0
+        CALL push(atoi(exp[i]))  // Convert character to integer
+        SET i = i + 1
+    END WHILE
+
+    CALL evaluate(exp)
+END PROCEDURE

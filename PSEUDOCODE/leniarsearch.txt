@@ -1,0 +1,33 @@
+PROCEDURE read(a: ARRAY OF INTEGER, n: INTEGER)
+    DECLARE i: INTEGER
+    FOR i FROM 0 TO n - 1
+        OUTPUT "Enter element", i + 1, ": "
+        INPUT a[i]
+    END FOR
+END PROCEDURE
+
+FUNCTION search(a: ARRAY OF INTEGER, n: INTEGER, x: INTEGER) RETURNS INTEGER
+    DECLARE i: INTEGER
+    FOR i FROM 0 TO n - 1
+        IF a[i] = x THEN
+            RETURN i
+        END IF
+    END FOR
+    RETURN -1
+END FUNCTION
+
+PROCEDURE main()
+    DECLARE x, flag, n: INTEGER
+    OUTPUT "Enter the number of elements: "
+    INPUT n
+    DECLARE a[n]: ARRAY OF INTEGER
+    CALL read(a, n)
+    OUTPUT "Enter the element to be searched: "
+    INPUT x
+    SET flag = CALL search(a, n, x)
+    IF flag = -1
+        OUTPUT "The element is not present in the array."
+    ELSE
+        OUTPUT "The element is present at", flag + 1, "th position in the array."
+    END IF
+END PROCEDURE

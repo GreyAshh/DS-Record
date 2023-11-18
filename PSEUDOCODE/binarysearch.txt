@@ -1,0 +1,37 @@
+FUNCTION read(a: ARRAY, n: INTEGER)
+    FOR i FROM 0 TO n - 1
+        OUTPUT "Enter element", i + 1, ": "
+        INPUT a[i]
+    END FOR
+END FUNCTION
+
+FUNCTION search(a: ARRAY, top: INTEGER, bot: INTEGER, x: INTEGER)
+    IF top <= bot
+        mid = (top + bot) / 2
+        IF a[mid] = x
+            RETURN mid
+        ELSE IF a[mid] > x
+            RETURN search(a, top, mid - 1, x)
+        ELSE
+            RETURN search(a, mid + 1, bot, x)
+        END IF
+    ELSE
+        RETURN -1
+    END IF
+END FUNCTION
+
+FUNCTION main()
+    DECLARE x, flag, n: INTEGER
+    OUTPUT "Enter the number of elements: "
+    INPUT n
+    DECLARE a[n]: ARRAY
+    CALL read(a, n)
+    OUTPUT "Enter the element to be searched: "
+    INPUT x
+    flag = CALL search(a, 0, n - 1, x)
+    IF flag = -1
+        OUTPUT "The element is not present in the array."
+    ELSE
+        OUTPUT "The element is present at", flag + 1, "th position in the array."
+    END IF
+END FUNCTION

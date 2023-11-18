@@ -1,0 +1,53 @@
+DECLARE MAX_ROWS, MAX_COLS: INTEGER
+DECLARE r, c: INTEGER
+
+PROCEDURE sparse(num: INTEGER, a: ARRAY[MAX_ROWS][MAX_COLS])
+    DECLARE s: ARRAY[MAX_ROWS * MAX_COLS + 1][3]
+    DECLARE i, j, k: INTEGER
+    SET k = 1
+
+    FOR i FROM 0 TO r - 1
+        FOR j FROM 0 TO c - 1
+            IF a[i][j] != 0 THEN
+                s[k][0] = i
+                s[k][1] = j
+                s[k][2] = a[i][j]
+                SET k = k + 1
+            END IF
+        END FOR
+    END FOR
+
+    s[0][0] = r
+    s[0][1] = c
+    s[0][2] = num
+
+    OUTPUT "The sparse matrix in three-column representation is,"
+    FOR i FROM 0 TO num
+        FOR j FROM 0 TO 2
+            OUTPUT s[i][j], " "
+        END FOR
+        OUTPUT ""
+    END FOR
+END PROCEDURE
+
+PROCEDURE main()
+    DECLARE i, j, count: INTEGER
+    OUTPUT "Enter the number of rows: "
+    INPUT r
+    OUTPUT "Enter the number of columns: "
+    INPUT c
+
+    DECLARE mat[MAX_ROWS][MAX_COLS]: ARRAY
+
+    FOR i FROM 0 TO r - 1
+        FOR j FROM 0 TO c - 1
+            OUTPUT "Enter the element[", i, "][", j, "]: "
+            INPUT mat[i][j]
+            IF mat[i][j] != 0 THEN
+                SET count = count + 1
+            END IF
+        END FOR
+    END FOR
+
+    CALL sparse(count, mat)
+END PROCEDURE
