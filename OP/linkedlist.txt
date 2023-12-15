@@ -1,0 +1,35 @@
+Enter the required options.
+1.Insert element first
+2.Insert element before
+3.Insert element after
+4.Delete element
+5.Display elements
+6.Exit
+Enter Option: 1
+Enter the value to be inserted: 1
+Enter Option: 1
+Enter the value to be inserted: 2
+Enter Option: 1
+Enter the value to be inserted: 3
+Enter Option: 5
+The linked list is, 
+3 2 1 
+Enter Option: 2
+Enter the value to be inserted: 0
+Enter the value before: 3
+Enter Option: 5
+The linked list is, 
+0 3 2 1 
+Enter Option: 3
+Enter the value to be inserted: 4
+Enter the value after: 1
+Enter Option: 5
+The linked list is, 
+0 3 2 1 4 
+Enter Option: 4
+Enter the value to be deleted: 2
+Enter Option: 5
+The linked list is, 
+0 3 1 4 
+Enter Option: 6
+Exiting the program
