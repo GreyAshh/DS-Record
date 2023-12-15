@@ -1,0 +1,215 @@
+PROCEDURE read(a: ARRAY OF INTEGER, n: INTEGER)
+DECLARE i: INTEGER
+FOR i FROM 0 TO n - 1
+    OUTPUT "Enter element", i + 1, ": "
+    INPUT a[i]
+END FOR
+END PROCEDURE
+
+FUNCTION search(a: ARRAY OF INTEGER, n: INTEGER, x: INTEGER) RETURNS INTEGER
+DECLARE i: INTEGER
+FOR i FROM 0 TO n - 1
+    IF a[i] = x THEN
+        RETURN i
+    END IF
+END FOR
+RETURN -1
+END FUNCTION
+
+STRUCTURE Node
+    INTEGER info
+    Node next
+    Node prev
+END STRUCTURE
+
+DECLARE head: Node = NULL
+DECLARE tail: Node = NULL
+
+FUNCTION newnode() RETURNS Node
+DECLARE p: Node
+    p = (Node) malloc(sizeof(Node))
+    RETURN p
+END FUNCTION
+
+PROCEDURE insert_first(value: INTEGER)
+DECLARE p: Node
+    p = newnode()
+    p.info = value
+    p.next = head
+    p.prev = NULL
+    IF head IS NULL
+        head = p
+        tail = p
+    ELSE
+        head.prev = p
+        head = p
+    END IF
+END PROCEDURE
+
+PROCEDURE insert_last(value: INTEGER)
+DECLARE p: Node
+    p = newnode()
+    p.info = value
+    p.prev = tail
+    p.next = NULL
+    IF head IS NULL
+        head = p
+        tail = p
+    ELSE
+        tail.next = p
+        tail = p
+    END IF
+END PROCEDURE
+
+PROCEDURE insert_after(value: INTEGER, after: INTEGER)
+DECLARE current: Node
+DECLARE p: Node
+    current = head
+    WHILE current IS NOT NULL AND current.info IS NOT EQUAL TO after
+        current = current.next
+    END WHILE
+    IF current IS NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        p = newnode()
+        p.info = value
+        IF current.next IS NULL
+            tail = p
+        ELSE
+            current.next.prev = p
+        END IF
+        p.next = current.next
+        p.prev = current
+        current.next = p
+    END IF
+END PROCEDURE
+
+PROCEDURE insert_before(value: INTEGER, before: INTEGER)
+DECLARE current: Node
+DECLARE p: Node
+    current = head
+    WHILE current IS NOT NULL AND current.info IS NOT EQUAL TO before
+        current = current.next
+    END WHILE
+    IF current IS NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        p = newnode()
+        p.info = value
+        IF current.prev IS NULL
+            head = p
+        ELSE
+            current.prev.next = p
+        END IF
+        p.prev = current.prev
+        p.next = current
+        current.prev = p
+    END IF
+END PROCEDURE
+
+PROCEDURE delete(value: INTEGER)
+DECLARE current: Node
+    current = head
+    WHILE current IS NOT NULL AND current.info IS NOT EQUAL TO value
+        current = current.next
+    END WHILE
+    IF current IS NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        IF current.prev IS NULL
+            head = current.next
+        ELSE
+            current.prev.next = current.next
+        END IF
+        IF current.next IS NULL
+            tail = current.prev
+        ELSE
+            current.next.prev = current.prev
+        END IF
+        FREE(current)
+    END IF
+END PROCEDURE
+
+PROCEDURE display_lr()
+DECLARE current: Node
+    current = head
+    WHILE current IS NOT NULL
+        OUTPUT current.info
+        current = current.next
+    END WHILE
+    OUTPUT newline
+END PROCEDURE
+
+PROCEDURE display_rl()
+DECLARE current: Node
+    current = tail
+    WHILE current IS NOT NULL
+        OUTPUT current.info
+        current = current.prev
+    END WHILE
+    OUTPUT newline
+END PROCEDURE
+
+FUNCTION main()
+DECLARE ch: INTEGER
+DECLARE value: INTEGER
+DECLARE other: INTEGER
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Insert element first"
+    OUTPUT "2. Insert element last"
+    OUTPUT "3. Insert element before"
+    OUTPUT "4. Insert element after"
+    OUTPUT "5. Delete element"
+    OUTPUT "6. Display elements (left to right)"
+    OUTPUT "7. Display elements (right to left)"
+    OUTPUT "8. Exit"
+
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                insert_first(value)
+                BREAK
+            CASE 2:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                insert_last(value)
+                BREAK
+            CASE 3:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                OUTPUT "Enter the value before: "
+                INPUT other
+                insert_before(value, other)
+                BREAK
+            CASE 4:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                OUTPUT "Enter the value after: "
+                INPUT other
+                insert_after(value, other)
+                BREAK
+            CASE 5:
+                OUTPUT "Enter the value to be deleted: "
+                INPUT value
+                delete(value)
+                BREAK
+            CASE 6:
+                OUTPUT "The linked list is: "
+                display_lr()
+                BREAK
+            CASE 7:
+                OUTPUT "The linked list is: "
+                display_rl()
+                BREAK
+            CASE 8:
+                OUTPUT "Exiting the program"
+                BREAK
+            DEFAULT:
+                OUTPUT "Wrong input"
+        END SWITCH
+    UNTIL ch IS EQUAL TO 8
+END FUNCTION

@@ -1,0 +1,132 @@
+PROCEDURE insert_first(value: INTEGER)
+DECLARE p: Node
+    p = newnode()
+    p.info = value
+    p.next = head
+    head = p
+END PROCEDURE
+
+PROCEDURE insert_after(value: INTEGER, after: INTEGER)
+DECLARE current: Node
+DECLARE p: Node
+    current = head
+    WHILE current IS NOT NULL AND current.info IS NOT EQUAL TO after
+        current = current.next
+    END WHILE
+    IF current IS NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        p = newnode()
+        p.info = value
+        p.next = current.next
+        current.next = p
+    END IF
+END PROCEDURE
+
+PROCEDURE insert_before(value: INTEGER, before: INTEGER)
+DECLARE current: Node
+DECLARE previous: Node
+DECLARE p: Node
+    current = head
+    previous = NULL
+    WHILE current IS NOT NULL AND current.info IS NOT EQUAL TO before
+        previous = current
+        current = current.next
+    END WHILE
+    IF current IS NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        p = newnode()
+        p.info = value
+        p.next = current
+        IF previous IS NOT NULL
+            previous.next = p
+        ELSE
+            head = p
+        END IF
+    END IF
+END PROCEDURE
+
+PROCEDURE delete(value: INTEGER)
+DECLARE current: Node
+DECLARE previous: Node
+    current = head
+    previous = NULL
+    WHILE current IS NOT NULL AND current.info IS NOT EQUAL TO value
+        previous = current
+        current = current.next
+    END WHILE
+    IF current IS NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        IF previous IS NULL
+            head = current.next
+        ELSE
+            previous.next = current.next
+        END IF
+        FREE(current)
+    END IF
+END PROCEDURE
+
+PROCEDURE display()
+DECLARE current: Node
+    current = head
+    WHILE current IS NOT NULL
+        OUTPUT current.info
+        current = current.next
+    END WHILE
+    OUTPUT newline
+END PROCEDURE
+
+FUNCTION main()
+DECLARE ch: INTEGER
+DECLARE value: INTEGER
+DECLARE other: INTEGER
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Insert element first"
+    OUTPUT "2. Insert element before"
+    OUTPUT "3. Insert element after"
+    OUTPUT "4. Delete element"
+    OUTPUT "5. Display elements"
+    OUTPUT "6. Exit"
+
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                insert_first(value)
+                BREAK
+            CASE 2:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                OUTPUT "Enter the value before: "
+                INPUT other
+                insert_before(value, other)
+                BREAK
+            CASE 3:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                OUTPUT "Enter the value after: "
+                INPUT other
+                insert_after(value, other)
+                BREAK
+            CASE 4:
+                OUTPUT "Enter the value to be deleted: "
+                INPUT value
+                delete(value)
+                BREAK
+            CASE 5:
+                OUTPUT "The linked list is: "
+                display()
+                BREAK
+            CASE 6:
+                OUTPUT "Exiting the program"
+                BREAK
+            DEFAULT:
+                OUTPUT "Wrong input"
+        END SWITCH
+    UNTIL ch IS EQUAL TO 6
+END FUNCTION
