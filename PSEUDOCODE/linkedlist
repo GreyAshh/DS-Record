@@ -1,0 +1,155 @@
+STRUCT Node:
+    INTEGER info
+    Node next
+
+TYPEDEF Node node
+node* head = NULL
+
+FUNCTION newnode() RETURNS node
+    DECLARE p AS node
+    p = allocate memory for a new node
+    RETURN p
+
+PROCEDURE insert_first(value: INTEGER)
+    DECLARE p AS node
+    p = newnode()
+    p.info = value
+    p.next = head
+    head = p
+
+PROCEDURE insert_after(value: INTEGER, after: INTEGER)
+    DECLARE current AS node
+    current = head
+
+    WHILE current != NULL AND current.info != after
+        current = current.next
+    END WHILE
+
+    IF current == NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        DECLARE p AS node
+        p = newnode()
+        p.info = value
+        p.next = current.next
+        current.next = p
+    END IF
+
+PROCEDURE insert_before(value: INTEGER, before: INTEGER)
+    DECLARE current, previous AS node
+    current = head
+    previous = NULL
+
+    WHILE current != NULL AND current.info != before
+        previous = current
+        current = current.next
+    END WHILE
+
+    IF current == NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        DECLARE p AS node
+        p = newnode()
+        p.info = value
+        p.next = current
+
+        IF previous != NULL
+            previous.next = p
+        ELSE
+            head = p
+        END IF
+    END IF
+
+PROCEDURE delete(value: INTEGER)
+    DECLARE current, previous AS node
+    current = head
+    previous = NULL
+
+    WHILE current != NULL AND current.info != value
+        previous = current
+        current = current.next
+    END WHILE
+
+    IF current == NULL
+        OUTPUT "No such nodes exist."
+    ELSE
+        IF previous == NULL
+            head = current.next
+        ELSE
+            previous.next = current.next
+        END IF
+
+        free(current)
+    END IF
+
+PROCEDURE display()
+    DECLARE current AS node
+    current = head
+
+    WHILE current != NULL
+        OUTPUT current.info, " "
+        current = current.next
+    END WHILE
+
+    OUTPUT ""
+
+FUNCTION main()
+    INTEGER ch, value, other
+
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Insert element first"
+    OUTPUT "2. Insert element before"
+    OUTPUT "3. Insert element after"
+    OUTPUT "4. Delete element"
+    OUTPUT "5. Display elements"
+    OUTPUT "6. Exit"
+
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                insert_first(value)
+                BREAK
+
+            CASE 2:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                OUTPUT "Enter the value before: "
+                INPUT other
+                insert_before(value, other)
+                BREAK
+
+            CASE 3:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                OUTPUT "Enter the value after: "
+                INPUT other
+                insert_after(value, other)
+                BREAK
+
+            CASE 4:
+                OUTPUT "Enter the value to be deleted: "
+                INPUT value
+                delete(value)
+                BREAK
+
+            CASE 5:
+                OUTPUT "The linked list is, "
+                display()
+                BREAK
+
+            CASE 6:
+                OUTPUT "Exiting the program"
+                BREAK
+
+            DEFAULT:
+                OUTPUT "Wrong input"
+                BREAK
+
+        END SWITCH
+    UNTIL ch = 6
+END FUNCTION
