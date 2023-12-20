@@ -1,0 +1,135 @@
+STRUCT Node:
+    INTEGER expo
+    INTEGER coeff
+    Node next
+
+TYPEDEF Node node
+
+FUNCTION newnode() RETURNS node
+    DECLARE p AS node
+    p = allocate memory for a new node
+    RETURN p
+
+FUNCTION read() RETURNS node
+    INTEGER c, e, ch
+    DECLARE curr, head AS node
+    head = newnode()
+    curr = head
+
+    REPEAT
+        OUTPUT "Enter the coefficient: "
+        INPUT c
+        OUTPUT "Enter the exponent   : "
+        INPUT e
+        curr.coeff = c
+        curr.expo = e
+
+        OUTPUT "Any more values (1/0): "
+        INPUT ch
+
+        IF ch == 1
+            curr.next = newnode()
+            curr = curr.next
+        END IF
+    UNTIL ch == 0
+
+    curr.next = NULL
+    RETURN head
+
+END FUNCTION
+
+FUNCTION add(a: node, b: node) RETURNS node
+    DECLARE c, curr AS node
+    c = newnode()
+    curr = c
+
+    WHILE a != NULL AND b != NULL
+        IF a.expo == b.expo
+            curr.coeff = a.coeff + b.coeff
+            curr.expo = a.expo
+            a = a.next
+            b = b.next
+        ELSE
+            IF a.expo > b.expo
+                curr.coeff = a.coeff
+                curr.expo = a.expo
+                a = a.next
+            ELSE
+                curr.coeff = b.coeff
+                curr.expo = b.expo
+                b = b.next
+            END IF
+        END IF
+
+        IF a != NULL OR b != NULL
+            curr.next = newnode()
+            curr = curr.next
+        END IF
+    END WHILE
+
+    IF a != NULL OR b != NULL
+        curr.next = newnode()
+        curr = curr.next
+    END IF
+
+    WHILE a != NULL
+        curr.coeff = a.coeff
+        curr.expo = a.expo
+        a = a.next
+
+        IF a != NULL
+            curr.next = newnode()
+            curr = curr.next
+        END IF
+    END WHILE
+
+    WHILE b != NULL
+        curr.coeff = b.coeff
+        curr.expo = b.expo
+        b = b.next
+
+        IF b != NULL
+            curr.next = newnode()
+            curr = curr.next
+        END IF
+    END WHILE
+
+    curr.next = NULL
+    RETURN c
+
+END FUNCTION
+
+PROCEDURE display(c: node)
+    DECLARE curr AS node
+    curr = c
+    OUTPUT ""
+
+    WHILE curr != NULL
+        OUTPUT curr.coeff, "x^", curr.expo
+
+        IF curr.next != NULL
+            OUTPUT " + "
+        END IF
+
+        curr = curr.next
+    END WHILE
+
+    OUTPUT ""
+
+END PROCEDURE
+
+FUNCTION main()
+    node a, b, c
+    OUTPUT "Enter the first polynomial: "
+    a = read()
+    CALL display(a)
+
+    OUTPUT "Enter the second polynomial: "
+    b = read()
+    CALL display(b)
+
+    OUTPUT "Added polynomial is: "
+    c = add(a, b)
+    CALL display(c)
+
+END FUNCTION
