@@ -1,0 +1,22 @@
+Enter the required options.
+1.Push element
+2.Pop element
+3.Peek element
+4.Display elements
+5.Exit
+Enter Option: 1
+Enter the value to be pushed: 1
+Enter Option: 1
+Enter the value to be pushed: 2
+Enter Option: 1
+Enter the value to be pushed: 3
+Enter Option: 4
+The stack is, 
+3 2 1 
+Enter Option: 2
+Value Poped: 3
+Enter Option: 4
+The stack is, 
+2 1 
+Enter Option: 5
+Extting the program. 
