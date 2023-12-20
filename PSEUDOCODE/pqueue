@@ -1,0 +1,129 @@
+ARRAY a[msize]
+INTEGER size = 1
+
+PROCEDURE swap(INTEGER *x, INTEGER *y)
+    INTEGER temp
+    temp = *x
+    *x = *y
+    *y = temp
+END PROCEDURE
+
+FUNCTION isfull() RETURNS INTEGER
+    IF size > msize
+        RETURN 1
+    ELSE
+        RETURN 0
+    END IF
+END FUNCTION
+
+FUNCTION isempty() RETURNS INTEGER
+    IF size == 1
+        RETURN 1
+    ELSE
+        RETURN 0
+    END IF
+END FUNCTION
+
+PROCEDURE insert(INTEGER value)
+    INTEGER curr, parent
+
+    IF isfull() == 1
+        OUTPUT "Queue full."
+    ELSE
+        curr = size
+        size = size + 1
+        a[curr] = value
+        parent = curr / 2
+
+        WHILE parent >= 1 AND a[curr] < a[parent]
+            CALL swap(&a[curr], &a[parent])
+            curr = parent
+            parent = curr / 2
+        END WHILE
+    END IF
+END PROCEDURE
+
+PROCEDURE heapify(ARRAY a[], INTEGER i, INTEGER size)
+    INTEGER small, lc, rc
+    small = i
+    lc = 2 * i
+    rc = 2 * i + 1
+
+    IF rc <= size AND a[small] > a[rc]
+        small = rc
+    END IF
+
+    IF lc <= size AND a[small] > a[lc]
+        small = lc
+    END IF
+
+    IF small != i
+        CALL swap(&a[small], &a[i])
+        CALL heapify(a, small, size)
+    END IF
+END PROCEDURE
+
+FUNCTION delete() RETURNS INTEGER
+    INTEGER value
+
+    IF isempty() == 1
+        OUTPUT "Queue empty."
+    ELSE
+        value = a[1]
+        a[1] = a[size - 1]
+        size = size - 1
+        CALL heapify(a, 1, size)
+        RETURN value
+    END IF
+END FUNCTION
+
+PROCEDURE display()
+    INTEGER i
+    OUTPUT "The Queue is,"
+    FOR i = 1 TO size - 1
+        OUTPUT a[i], " "
+    END FOR
+    OUTPUT ""
+END PROCEDURE
+
+FUNCTION main()
+    INTEGER ch, value, v
+
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Insert element"
+    OUTPUT "2. Delete element"
+    OUTPUT "3. Display elements"
+    OUTPUT "4. Exit"
+
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                CALL insert(value)
+                BREAK
+
+            CASE 2:
+                v = CALL delete()
+                OUTPUT "Value deleted: ", v
+                BREAK
+
+            CASE 3:
+                OUTPUT "The queue is, "
+                CALL display()
+                BREAK
+
+            CASE 4:
+                OUTPUT "Exiting the program."
+                BREAK
+
+            DEFAULT:
+                OUTPUT "Wrong input."
+        END SWITCH
+
+    UNTIL ch == 4
+
+END FUNCTION
