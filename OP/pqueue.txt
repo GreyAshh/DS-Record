@@ -1,0 +1,27 @@
+Enter the required options.
+1.Insert element
+2.Delete element
+3.Display elements
+4.Exit
+Enter Option: 1
+Enter the value to be inserted: 2
+Enter Option: 1
+Enter the value to be inserted: 3
+Enter Option: 1
+Enter the value to be inserted: 1
+Enter Option: 1
+Enter the value to be inserted: 4
+Enter Option: 3
+The queue is, 
+The Queue is,
+1 3 2 4 
+Enter Option: 2
+Value deleted: 1
+Enter Option: 2 
+Value deleted: 2
+Enter Option: 2
+Value deleted: 3
+Enter Option: 2
+Value deleted: 4
+Enter Option: 4
+Exiting the program.
