@@ -1,0 +1,111 @@
+STRUCT Node:
+    INTEGER info
+    Node next
+
+TYPEDEF Node node
+node* f = NULL
+node* r = NULL
+
+FUNCTION newnode() RETURNS node
+    DECLARE p AS node
+    p = allocate memory for a new node
+    RETURN p
+
+PROCEDURE insert(value: INTEGER)
+    DECLARE p AS node
+    p = newnode()
+
+    IF p == NULL
+        OUTPUT "Insufficient memory."
+    ELSE
+        p.info = value
+        p.next = NULL
+
+        IF r == NULL
+            f = p
+            r = p
+        ELSE
+            r.next = p
+            r = p
+        END IF
+    END IF
+
+END PROCEDURE
+
+FUNCTION delete() RETURNS INTEGER
+    DECLARE val: INTEGER
+
+    IF f == NULL
+        OUTPUT "Empty Queue."
+    ELSE
+        DECLARE p AS node
+        p = f
+        val = f.info
+
+        IF r == f
+            f = NULL
+            r = NULL
+        ELSE
+            f = f.next
+        END IF
+
+        free(p)
+        RETURN val
+    END IF
+
+    RETURN NULL
+END FUNCTION
+
+PROCEDURE display()
+    DECLARE current AS node
+    current = f
+
+    WHILE current != NULL
+        OUTPUT current.info, " "
+        current = current.next
+    END WHILE
+
+    OUTPUT ""
+END PROCEDURE
+
+FUNCTION main()
+    INTEGER ch, value, v
+
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Insert element"
+    OUTPUT "2. Delete element"
+    OUTPUT "3. Display elements"
+    OUTPUT "4. Exit"
+
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be inserted: "
+                INPUT value
+                insert(value)
+                BREAK
+
+            CASE 2:
+                v = delete()
+                OUTPUT "Value deleted: ", v
+                BREAK
+
+            CASE 3:
+                OUTPUT "The queue is, "
+                display()
+                BREAK
+
+            CASE 4:
+                OUTPUT "Exiting the program."
+                BREAK
+
+            DEFAULT:
+                OUTPUT "Wrong input."
+        END SWITCH
+
+    UNTIL ch == 4
+
+END FUNCTION
