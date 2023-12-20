@@ -1,0 +1,104 @@
+STRUCT Node:
+    INTEGER info
+    Node next
+
+TYPEDEF Node node
+node* top = NULL
+
+FUNCTION newnode() RETURNS node
+    DECLARE p AS node
+    p = allocate memory for a new node
+    RETURN p
+
+PROCEDURE push(value: INTEGER)
+    DECLARE p AS node
+    p = newnode()
+
+    IF p == NULL
+        OUTPUT "Insufficient memory."
+    ELSE
+        p.info = value
+        p.next = top
+        top = p
+    END IF
+
+END PROCEDURE
+
+FUNCTION pop() RETURNS INTEGER
+    DECLARE item: INTEGER
+
+    IF top == NULL
+        OUTPUT "Empty stack."
+    ELSE
+        DECLARE p AS node
+        p = top
+        top = top.next
+        item = p.info
+        free(p)
+        RETURN item
+    END IF
+
+    RETURN NULL
+END FUNCTION
+
+FUNCTION peek() RETURNS INTEGER
+    RETURN top.info
+END FUNCTION
+
+PROCEDURE display()
+    DECLARE current AS node
+    current = top
+
+    WHILE current != NULL
+        OUTPUT current.info, " "
+        current = current.next
+    END WHILE
+
+    OUTPUT ""
+END PROCEDURE
+
+FUNCTION main()
+    INTEGER ch, value
+
+    OUTPUT "Enter the required options."
+    OUTPUT "1. Push element"
+    OUTPUT "2. Pop element"
+    OUTPUT "3. Peek element"
+    OUTPUT "4. Display elements"
+    OUTPUT "5. Exit"
+
+    REPEAT
+        OUTPUT "Enter Option: "
+        INPUT ch
+
+        SWITCH ch
+            CASE 1:
+                OUTPUT "Enter the value to be pushed: "
+                INPUT value
+                CALL push(value)
+                BREAK
+
+            CASE 2:
+                OUTPUT "Value Popped: ", CALL pop()
+                BREAK
+
+            CASE 3:
+                OUTPUT "Peeked element: ", CALL peek()
+                BREAK
+
+            CASE 4:
+                OUTPUT "The stack is, "
+                CALL display()
+                BREAK
+
+            CASE 5:
+                OUTPUT "Exiting the program."
+                BREAK
+
+            DEFAULT:
+                OUTPUT "Wrong input."
+        END SWITCH
+
+    UNTIL ch == 5
+
+END FUNCTION
