@@ -1,0 +1,71 @@
+FUNCTION read(a: ARRAY, n: INTEGER)
+    FOR i FROM 1 TO n
+        OUTPUT "Enter element ", i, ": "
+        INPUT a[i]
+    END FOR
+END FUNCTION
+
+PROCEDURE swap(x: POINTER TO INTEGER, y: POINTER TO INTEGER)
+    DECLARE temp: INTEGER
+    temp = *x
+    *x = *y
+    *y = temp
+END PROCEDURE
+
+FUNCTION display(a: ARRAY, n: INTEGER)
+    OUTPUT "The sorted array is,"
+    FOR i FROM 1 TO n
+        OUTPUT a[i], " "
+    END FOR
+    OUTPUT ""
+END FUNCTION
+
+PROCEDURE heapify(a: ARRAY, i: INTEGER, size: INTEGER)
+    DECLARE lar, lc, rc: INTEGER
+    lar = i
+    lc = 2 * i
+    rc = 2 * i + 1
+
+    IF rc <= size AND a[lar] < a[rc]
+        lar = rc
+    END IF
+
+    IF lc <= size AND a[lar] < a[lc]
+        lar = lc
+    END IF
+
+    IF lar != i
+        CALL swap(a[lar], a[i])
+        CALL heapify(a, lar, size)
+    END IF
+END PROCEDURE
+
+PROCEDURE build_heap(a: ARRAY, n: INTEGER)
+    DECLARE i: INTEGER
+    FOR i FROM n / 2 DOWNTO 1
+        CALL heapify(a, i, n)
+    END FOR
+END PROCEDURE
+
+PROCEDURE heap_sort(a: ARRAY, n: INTEGER)
+    DECLARE i, size: INTEGER
+    size = n
+    CALL build_heap(a, n)
+
+    FOR i FROM 1 TO n - 1
+        CALL swap(a[1], a[size])
+        size = size - 1
+        CALL heapify(a, 1, size)
+    END FOR
+END PROCEDURE
+
+FUNCTION main()
+    DECLARE n: INTEGER
+    OUTPUT "Enter the number of elements: "
+    INPUT n
+
+    DECLARE a[n]: ARRAY
+    CALL read(a, n)
+    CALL heap_sort(a, n)
+    CALL display(a, n)
+END FUNCTION
