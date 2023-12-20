@@ -1,0 +1,27 @@
+Enter the first polynomeal: 
+Enter the coefficiant: 1
+Enter the exponent   : 2
+Any more values (1/0): 1
+Enter the coefficiant: 1
+Enter the exponent   : 1
+Any more values (1/0): 1
+Enter the coefficiant: 1
+Enter the exponent   : 0
+Any more values (1/0): 0
+
+1 x^2 + 1 x^1 + 1 x^0
+Enter the second polynomeal: 
+Enter the coefficiant: 1
+Enter the exponent   : 3
+Any more values (1/0): 1
+Enter the coefficiant: 2
+Enter the exponent   : 2
+Any more values (1/0): 1
+Enter the coefficiant: 0
+Enter the exponent   : 1
+Any more values (1/0): 0
+
+1 x^3 + 2 x^2 + 0 x^1
+Added polynomeal is, 
+
+1 x^3 + 3 x^2 + 1 x^1 + 0 x^0 + 1 x^0
